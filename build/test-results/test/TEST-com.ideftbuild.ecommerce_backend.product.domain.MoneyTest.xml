@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ideftbuild.ecommerce_backend.product.domain.MoneyTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-26T12:24:45.699Z" hostname="akanBox" time="0.089">
+  <properties/>
+  <testcase name="should create Money successful()" classname="com.ideftbuild.ecommerce_backend.product.domain.MoneyTest" time="0.089"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

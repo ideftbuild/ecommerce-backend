@@ -1,0 +1,36 @@
+services:
+  # api:
+  #   build:
+  #     context: .
+  #     target: development # Tells Docker to build the 'development' stage from our Dockerfile
+  #   ports:
+  #     - "8080:8080" # Forward the application port
+  #     - "8000:8000" # Forward the debug port
+  #   volumes:
+  #     # This is the key for live-reloading. It syncs your local 'src' folder
+  #     # with the 'src' folder inside the container. Spring Boot Devtools will
+  #     # detect changes and automatically restart the application.
+  #     - ./src:/app/src
+  #     # Mount the build output so DevTools can detect compiled class changes
+  #     - ./build/classes:/app/build/classes
+  #     - ./build/resources:/app/build/resources
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ecommerce_db
+  #     - SPRING_DATASOURCE_USERNAME=postgres
+  #     - SPRING_DATASOURCE_PASSWORD=password
+  #     - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5000:5432" # Forward the PostgreSQL port to your host machine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ecommerce_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  postgres_data:
