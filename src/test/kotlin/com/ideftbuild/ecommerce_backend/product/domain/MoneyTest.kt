@@ -1,7 +1,6 @@
 package com.ideftbuild.ecommerce_backend.product.domain
 
 import com.ideftbuild.ecommerce_backend.product.domain.model.Money
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal

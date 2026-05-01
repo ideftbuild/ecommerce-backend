@@ -1,9 +1,12 @@
 package com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.mapper
 
+import com.ideftbuild.ecommerce_backend.category.domain.Category
+import com.ideftbuild.ecommerce_backend.category.infrastructure.persistence.entity.CategoryEntity
 import com.ideftbuild.ecommerce_backend.product.domain.model.ProductQuery
 import com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.entity.ProductEntity
 import jakarta.persistence.criteria.Predicate
 import org.springframework.data.jpa.domain.Specification
+import java.util.UUID
 
 /**
  * Provides utility methods for building dynamic JPA [Specification] instances
@@ -32,20 +35,38 @@ object ProductSpecification {
 
             // Partial matching by name
             query.name?.let {
-                predicates.add(cb.like(cb.lower(root.get("name")), "%${it.lowercase()}%"))
+                predicates.add(cb.like(cb.lower(root.get("name")), "${it.lowercase()}%"))
             }
 
-            // price >= minPrice
+            // query.minPrice >= product.minPrice
             query.minPrice?.let {
                 predicates.add(
-                    cb.greaterThanOrEqualTo(root.get("price"), it)
+                    cb.greaterThanOrEqualTo(root.get("minPrice"), it)
                 )
             }
 
-            // price <= maxPrice
             query.maxPrice?.let {
                 predicates.add(
-                    cb.lessThanOrEqualTo(root.get("price"), it)
+                    cb.lessThanOrEqualTo(root.get("maxPrice"), it)
+                )
+            }
+
+            query.currency?.let {
+                predicates.add(
+                    cb.equal(root.get<String>("currency"), it)
+                )
+            }
+
+            query.categoryId?.let {
+                predicates.add(
+                    cb.equal(root.get<CategoryEntity>("category").get<UUID>("id"), it)
+                )
+            }
+            query.categorySlug?.let {
+                val categoryJoin = root.join<ProductEntity, CategoryEntity>("category")
+
+                predicates.add(
+                    cb.equal(categoryJoin.get<String>("slug"), it)
                 )
             }
 

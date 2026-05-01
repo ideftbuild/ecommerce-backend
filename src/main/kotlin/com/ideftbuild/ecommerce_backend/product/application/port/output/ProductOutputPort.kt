@@ -4,6 +4,7 @@ import com.ideftbuild.ecommerce_backend.product.domain.model.Product
 import com.ideftbuild.ecommerce_backend.product.domain.model.ProductQuery
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import java.util.Currency
 import java.util.UUID
 
 interface ProductOutputPort {
@@ -16,4 +17,8 @@ interface ProductOutputPort {
     fun deleteById(id: UUID)
 
     fun findAll(query: ProductQuery, pageable: Pageable): Page<Product>
+
+    fun existsById(id: UUID): Boolean
+
+    fun findCurrencyById(id: UUID): Currency?
 }

@@ -1,40 +1,51 @@
 package com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.mapper
 
+import com.ideftbuild.ecommerce_backend.category.infrastructure.persistence.mapper.toDomain
+import com.ideftbuild.ecommerce_backend.category.infrastructure.persistence.mapper.toEntity
 import com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.entity.ProductEntity
 import com.ideftbuild.ecommerce_backend.product.domain.model.Money
 import com.ideftbuild.ecommerce_backend.product.domain.model.Product
-import org.springframework.stereotype.Component
 import java.util.Currency
 
-@Component
-class ProductMapper {
+fun ProductEntity.toDomain(): Product {
+    val product = Product(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        currency = Currency.getInstance(this.currency),
+        status = this.status,
+        minPrice = Money.of(this.minPrice, Currency.getInstance(this.currency)),
+        maxPrice = Money.of(this.maxPrice, Currency.getInstance(this.currency)),
+        category = this.category.toDomain(),
+        updatedAt = this.updatedAt,
+        createdAt = this.createdAt,
+        deletedAt = this.deletedAt
+    )
+    this.variants.forEach {
+        product.addVariant(it.toDomain(product.currency.currencyCode))
+    }
+    return product
+}
 
-    fun toDomain(entity: ProductEntity): Product {
-        return Product(
-            id = entity.id,
-            name = entity.name,
-            description = entity.description,
-            price = Money.of(entity.price, Currency.getInstance(entity.currency)),
-            quantity = entity.quantity,
-            updatedAt = entity.updatedAt,
-            createdAt = entity.createdAt,
-            deletedAt = entity.deletedAt
-        )
+
+fun Product.toEntity(): ProductEntity {
+    val entity = ProductEntity(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        currency = this.currency.currencyCode,
+        minPrice = this.minPrice.amount,
+        maxPrice = this.maxPrice.amount,
+        status = this.status,
+        category = this.category.toEntity(),
+        deletedAt = this.deletedAt,
+    ).apply {
+        createdAt = this.createdAt
+        updatedAt = this.updatedAt
+    }
+    this.variants.forEach { variant ->
+        entity.variants.add(variant.toEntity(entity))
     }
 
-    fun toEntity(product: Product): ProductEntity {
-        return ProductEntity(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            price = product.price.amount,
-            currency = product.price.currency.currencyCode,
-            quantity = product.quantity,
-            status = product.status,
-            deletedAt = product.deletedAt,
-        ).apply {
-            createdAt = product.createdAt
-            updatedAt = product.updatedAt
-        }
-    }
+    return entity
 }
