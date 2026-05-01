@@ -29,6 +29,14 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-hateoas")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
+	implementation("software.amazon.awssdk:s3:2.21.0")
+	implementation("software.amazon.awssdk:auth:2.21.0")
+	// jwt
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-configuration-processor:4.0.0")
 	runtimeOnly("org.postgresql:postgresql")
