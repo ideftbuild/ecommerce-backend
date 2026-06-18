@@ -2,10 +2,9 @@ package com.ideftbuild.ecommerce_backend.product.application.usecase
 
 import com.ideftbuild.ecommerce_backend.product.application.port.input.DeleteImageInputPort
 import com.ideftbuild.ecommerce_backend.product.application.port.output.VariantOutputPort
-import com.ideftbuild.ecommerce_backend.product.domain.model.VariantImage
 import com.ideftbuild.ecommerce_backend.product.domain.model.removeFirstMatching
 import com.ideftbuild.ecommerce_backend.shared.exception.ResourceNotFoundException
-import com.ideftbuild.ecommerce_backend.shared.port.output.ImageStoragePort
+import com.ideftbuild.ecommerce_backend.shared.application.port.output.ImageStoragePort
 import org.springframework.stereotype.Service
 import java.util.UUID
 

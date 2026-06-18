@@ -1,6 +1,6 @@
 package com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.entity
 
-import com.ideftbuild.ecommerce_backend.shared.domain.common.AuditableEntity
+import com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.entity.AuditableEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

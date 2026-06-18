@@ -2,6 +2,7 @@ package com.ideftbuild.ecommerce_backend.shared.api
 
 import com.ideftbuild.ecommerce_backend.shared.exception.ImageNotFoundException
 import com.ideftbuild.ecommerce_backend.shared.exception.ImageUploadException
+import com.ideftbuild.ecommerce_backend.shared.exception.InvalidCredentialsException
 import com.ideftbuild.ecommerce_backend.shared.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -35,6 +36,17 @@ class GlobalExceptionHandler {
             errors = null
         ))
     }
+
+    @ExceptionHandler(InvalidCredentialsException::class)
+    fun handleInvalidCredentialsException(ex: InvalidCredentialsException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(ErrorResponse(
+                message = ex.message ?: "Business rule violation",
+                errors = null
+            ))
+    }
+
 
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(ex: ResourceNotFoundException): ResponseEntity<ErrorResponse> {

@@ -19,11 +19,19 @@ class OpenApiConfig {
                 .version("1.0")
                 .description("E-commerce REST API")
             )
-            .addSecurityItem(SecurityRequirement().addList("basicAuth"))
+//            .addSecurityItem(SecurityRequirement().addList("basicAuth"))
+            .addSecurityItem(SecurityRequirement().addList("bearerAuth"))
             .components(Components()
-                .addSecuritySchemes("basicAuth", SecurityScheme()
-                    .type(SecurityScheme.Type.HTTP)
-                    .scheme("basic")
+//                .addSecuritySchemes("basicAuth", SecurityScheme()
+//                    .type(SecurityScheme.Type.HTTP)
+//                    .scheme("basic")
+//                )
+                .addSecuritySchemes(
+                    "bearerAuth",
+                    SecurityScheme()
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")
                 )
             )
     }

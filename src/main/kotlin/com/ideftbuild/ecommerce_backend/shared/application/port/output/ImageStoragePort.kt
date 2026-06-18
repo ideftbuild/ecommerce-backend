@@ -1,4 +1,4 @@
-package com.ideftbuild.ecommerce_backend.shared.port.output
+package com.ideftbuild.ecommerce_backend.shared.application.port.output
 
 interface ImageStoragePort {
     /**

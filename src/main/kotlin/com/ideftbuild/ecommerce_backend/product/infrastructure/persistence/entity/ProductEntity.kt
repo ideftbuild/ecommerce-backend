@@ -2,7 +2,7 @@ package com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.enti
 
 import com.ideftbuild.ecommerce_backend.category.infrastructure.persistence.entity.CategoryEntity
 import com.ideftbuild.ecommerce_backend.product.domain.model.ProductStatus
-import com.ideftbuild.ecommerce_backend.shared.domain.common.AuditableEntity
+import com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.entity.AuditableEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Column

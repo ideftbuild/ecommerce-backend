@@ -24,12 +24,8 @@ class ProductPersistenceAdapter (
 ): ProductOutputPort {
     override fun save(product: Product): Product {
         val entity = product.toEntity()
-        println("product is: $entity")
-        println("variants are:")
-        entity.variants.forEach { println("sku: ${it.sku}") }
         val product = jpaRepository.save(entity).toDomain()
 
-        println("after saving!!: ")
         product.variants.forEach { println("sku: ${it.sku}") }
         return product
     }

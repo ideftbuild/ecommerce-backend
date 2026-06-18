@@ -1,6 +1,6 @@
 package com.ideftbuild.ecommerce_backend.shared.api
 
-import com.ideftbuild.ecommerce_backend.shared.port.output.ImageStoragePort
+import com.ideftbuild.ecommerce_backend.shared.application.port.output.ImageStoragePort
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

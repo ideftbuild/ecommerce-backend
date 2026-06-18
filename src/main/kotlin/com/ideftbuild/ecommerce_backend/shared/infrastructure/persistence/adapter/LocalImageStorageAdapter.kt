@@ -1,12 +1,11 @@
-package com.ideftbuild.ecommerce_backend.shared.infrastructure
+package com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.adapter
 
 import com.ideftbuild.ecommerce_backend.shared.config.FileStorageProperties
-import com.ideftbuild.ecommerce_backend.shared.port.output.ImageStoragePort
+import com.ideftbuild.ecommerce_backend.shared.application.port.output.ImageStoragePort
 import org.springframework.stereotype.Service
 import java.nio.file.Files
-import java.util.*
-
-import java.nio.file.*
+import java.nio.file.StandardOpenOption
+import java.util.UUID
 
 @Service
 class LocalImageStorageAdapter(

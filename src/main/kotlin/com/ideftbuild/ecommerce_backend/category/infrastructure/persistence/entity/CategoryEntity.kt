@@ -1,10 +1,9 @@
 package com.ideftbuild.ecommerce_backend.category.infrastructure.persistence.entity
 
-import com.ideftbuild.ecommerce_backend.shared.domain.common.AuditableEntity
+import com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.entity.AuditableEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Index
 import jakarta.persistence.Table

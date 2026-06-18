@@ -1,6 +1,6 @@
 package com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.entity
 
-import com.ideftbuild.ecommerce_backend.shared.domain.common.AuditableEntity
+import com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.entity.AuditableEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
-import java.time.Instant
 import java.util.UUID
 
 @Entity

@@ -1,9 +1,9 @@
-package com.ideftbuild.ecommerce_backend.shared.infrastructure
+package com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.adapter
 //
 //import com.ideftbuild.ecommerce_backend.shared.config.CloudflareR2Properties
 //import com.ideftbuild.ecommerce_backend.shared.exception.ImageDeletionException
 //import com.ideftbuild.ecommerce_backend.shared.exception.ImageUploadException
-//import com.ideftbuild.ecommerce_backend.shared.port.output.ImageStoragePort
+//import com.ideftbuild.ecommerce_backend.shared.application.port.output.ImageStoragePort
 //import org.slf4j.LoggerFactory
 //import org.springframework.stereotype.Component
 //import software.amazon.awssdk.core.sync.RequestBody
