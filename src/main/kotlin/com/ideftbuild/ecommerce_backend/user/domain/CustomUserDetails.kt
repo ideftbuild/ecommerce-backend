@@ -17,7 +17,25 @@ class CustomUserDetails(
 ): UserDetails {
 
     private val authorities: Collection<GrantedAuthority> =
-        roles.map { SimpleGrantedAuthority("ROLE_${it.name}") }
+        buildList {
+            // Add roles
+            addAll(
+                roles.map {
+                    SimpleGrantedAuthority("ROLE_${it.name}")
+                }
+            )
+
+            // Add permissions
+            addAll(
+                roles
+                    .flatMap { it.permissions }
+                    .distinctBy { it.name }
+                    .map {
+                        SimpleGrantedAuthority(it.name)
+                    }
+            )
+        }
+        // roles.map { SimpleGrantedAuthority("ROLE_${it.name}") }
 
     override fun getAuthorities(): Collection<GrantedAuthority> = authorities
 

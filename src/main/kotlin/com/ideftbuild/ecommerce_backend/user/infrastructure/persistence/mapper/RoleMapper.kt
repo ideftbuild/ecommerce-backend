@@ -7,12 +7,15 @@ fun Role.toEntity(): RoleEntity = RoleEntity(
     id = this.id,
     name = this.name,
     description = this.description,
-    deletedAt = this.deletedAt
+    permissions = this.permissions.mapTo(mutableSetOf()) { it.toEntity() },
+    deletedAt = this.deletedAt,
 )
 
 fun RoleEntity.toDomain(): Role = Role(
     id = this.id,
     name = this.name,
     description = this.description,
+    isSystem = this.isSystem,
+    permissions = this.permissions.mapTo(mutableSetOf()) { it.toDomain() },
     deletedAt = this.deletedAt
 )

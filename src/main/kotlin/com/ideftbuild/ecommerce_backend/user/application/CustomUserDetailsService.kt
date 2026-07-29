@@ -17,6 +17,7 @@ class CustomUserDetailsService(
         val user = userOutputPort.findByUsernameOrEmail(username)
             ?: throw ResourceNotFoundException("user", message = username)
 
+        
 
         return CustomUserDetails(
             id = user.id!!,

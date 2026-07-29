@@ -18,15 +18,22 @@ class LoginUserUseCase(
     private val passwordEncoder: PasswordEncoder
 ): LoginUserInputPort {
     override fun execute(request: LoginRequest): AuthResponse {
+        println("Control in execute")
         val identifier = request.username ?: request.email
         ?: throw InvalidCredentialsException()
+
+        println("identifier retrieved: $identifier")
 
         val user = userOutputPort.findByUsernameOrEmail(identifier)
             ?: throw InvalidCredentialsException()
 
+        println("user retrieved: ${user.username}")
+
         if (!passwordEncoder.matches(request.password, user.password)) {
             throw InvalidCredentialsException()
         }
+
+        println("ensured it matches")
 
         return AuthResponse(jwtService.generateToken(
             user.username,

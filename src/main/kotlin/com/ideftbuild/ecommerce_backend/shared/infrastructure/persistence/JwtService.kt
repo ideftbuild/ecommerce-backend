@@ -1,12 +1,10 @@
 package com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence
 
 import com.ideftbuild.ecommerce_backend.shared.application.port.input.TokenProvider
-import com.ideftbuild.ecommerce_backend.user.domain.User
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.nio.charset.StandardCharsets
 import java.util.Date
 import javax.crypto.SecretKey
 

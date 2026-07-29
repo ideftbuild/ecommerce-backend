@@ -1,5 +1,6 @@
 package com.ideftbuild.ecommerce_backend.user.api.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.UUID
 
 class RoleResponse (
@@ -7,5 +8,10 @@ class RoleResponse (
 
     val name: String,
 
-    val description: String?
+    val description: String?,
+
+    @field:JsonProperty("isSystem")
+    val isSystem: Boolean,
+
+    val permissions: List<PermissionResponse>
 )

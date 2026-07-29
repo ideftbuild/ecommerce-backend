@@ -7,6 +7,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import java.time.Instant
 import java.util.UUID
@@ -24,11 +26,21 @@ class RoleEntity (
     @Column
     val description: String?,
 
-//    @ManyToMany(mappedBy = "roles")
-//    val users: MutableSet<UserEntity> = mutableSetOf()
+    @Column
+    val isSystem: Boolean = false,
+
     @Column
     var deletedAt: Instant? = null,
-): AuditableEntity() {
+
+    @ManyToMany
+    @JoinTable(
+        name = "role_permissions",
+        joinColumns = [JoinColumn(name = "role_id")],
+        inverseJoinColumns = [JoinColumn(name = "permission_id")]
+    )
+    val permissions: MutableSet<PermissionEntity> = mutableSetOf(),
+
+    ): AuditableEntity() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RoleEntity) return false

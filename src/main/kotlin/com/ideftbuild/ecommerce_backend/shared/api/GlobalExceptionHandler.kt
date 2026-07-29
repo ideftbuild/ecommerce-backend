@@ -4,8 +4,12 @@ import com.ideftbuild.ecommerce_backend.shared.exception.ImageNotFoundException
 import com.ideftbuild.ecommerce_backend.shared.exception.ImageUploadException
 import com.ideftbuild.ecommerce_backend.shared.exception.InvalidCredentialsException
 import com.ideftbuild.ecommerce_backend.shared.exception.ResourceNotFoundException
+import com.ideftbuild.ecommerce_backend.user.exception.UserCreationException
+import io.jsonwebtoken.ExpiredJwtException
+import org.apache.coyote.Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authorization.AuthorizationDeniedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -83,6 +87,32 @@ class GlobalExceptionHandler {
                     "error" to "Image Not Found"
                 ),
                 message = ex.message ?: "Image not found"
+            ))
+    }
+
+    @ExceptionHandler(UserCreationException::class)
+    fun handleUserCreationException(ex: UserCreationException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ErrorResponse(
+                errors = mapOf(
+                    "status" to "500",
+                    "error" to "User Creation Error"
+                ),
+                message = ex.message ?: "Failed to create user"
+            ))
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException::class)
+    fun handleAuthorizationDeniedException(ex: AuthorizationDeniedException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(ErrorResponse(
+                errors = mapOf(
+                    "status" to "403",
+                    "error" to "Access Denied"
+                ),
+                message = ex.message ?: "Access Denied"
             ))
     }
 }

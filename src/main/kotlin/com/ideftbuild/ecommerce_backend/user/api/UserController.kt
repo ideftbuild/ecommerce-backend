@@ -12,6 +12,7 @@ import com.ideftbuild.ecommerce_backend.user.application.port.input.UpdateUserIn
 import com.ideftbuild.ecommerce_backend.user.domain.CustomUserDetails
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -66,6 +67,7 @@ class UserController(
         summary = "Get Users",
         description = "Get All Registered Users"
     )
+    @PreAuthorize("hasAuthority('user:read')")
     @GetMapping("")
     fun getAll(): ResponseEntity<List<UserResponse>> {
         return ResponseEntity.ok(getAll.execute())
@@ -75,6 +77,7 @@ class UserController(
         summary = "Get User",
         description = "Get User"
     )
+    @PreAuthorize("hasAuthority('user:read')")
     @GetMapping("/{id}")
     fun get(@PathVariable id: UUID): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(get.execute(id))
@@ -85,6 +88,7 @@ class UserController(
         summary = "Update User",
         description = "Update registered User"
     )
+    @PreAuthorize("hasAuthority('user:update')")
     @PutMapping("/{id}")
     fun update(@PathVariable id: UUID, @RequestBody request: UpdateUserRequest): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(update.execute(id, request))
@@ -95,6 +99,7 @@ class UserController(
         summary = "Delete User",
         description = "Delete registered User"
     )
+    @PreAuthorize("hasAuthority('user:delete')")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
         delete.execute(id)
@@ -105,6 +110,7 @@ class UserController(
         summary = "Restore User",
         description = "Restore deleted User"
     )
+    @PreAuthorize("hasAuthority('user:restore')")
     @PatchMapping("/{id}/restore")
     fun restore(@PathVariable id: UUID): ResponseEntity<Void> {
         restore.execute(id)

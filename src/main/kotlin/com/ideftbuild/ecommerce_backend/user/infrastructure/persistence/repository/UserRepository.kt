@@ -17,13 +17,14 @@ interface UserRepository: JpaRepository<UserEntity, UUID> {
     fun existsByUsernameOrEmailAndDeletedAtIsNull(username: String, email: String): Boolean
 
     @Query("""
-        SELECT u FROM UserEntity u
-        LEFT JOIN FETCH u.roles
-        WHERE LOWER(u.username) = LOWER(:identifier)
-        OR LOWER(u.email) = LOWER(:identifier)
-        """)
+    SELECT DISTINCT u
+    FROM UserEntity u
+    LEFT JOIN FETCH u.roles r
+    LEFT JOIN FETCH r.permissions
+    WHERE LOWER(u.username) = LOWER(:identifier)
+       OR LOWER(u.email) = LOWER(:identifier)
+       """)
     fun findByUsernameOrEmail(@Param("identifier") identifier: String): UserEntity?
-
 
     @Query("SELECT e FROM UserEntity e WHERE e.deletedAt IS NULL")
     fun findAllActive(): List<UserEntity>

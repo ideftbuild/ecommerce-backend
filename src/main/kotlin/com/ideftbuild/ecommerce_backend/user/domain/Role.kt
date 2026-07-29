@@ -12,6 +12,9 @@ class Role (
 
     var description: String?,
 
+    var isSystem: Boolean = false,
+
+    val permissions: MutableSet<Permission> = mutableSetOf(),
 //    val users: MutableSet<User> = mutableSetOf()
     var deletedAt: Instant? = null
 ) {

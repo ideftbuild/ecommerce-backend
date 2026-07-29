@@ -13,6 +13,7 @@ import com.ideftbuild.ecommerce_backend.user.infrastructure.persistence.reposito
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -41,6 +42,7 @@ class RoleController(
         summary = "Create role",
         description = "Create a role"
     )
+    @PreAuthorize("hasAuthority('role:create')")
     @PostMapping("")
     fun create(@RequestBody request: CreateRoleRequest): ResponseEntity<RoleResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(create.execute(request))
@@ -51,6 +53,7 @@ class RoleController(
         summary = "Get role",
         description = "Get a role"
     )
+    @PreAuthorize("hasAuthority('role:read')")
     @GetMapping("/{id}")
     fun get(@PathVariable id: UUID): ResponseEntity<RoleResponse> {
         return ResponseEntity.ok(get.execute(id))
@@ -61,6 +64,7 @@ class RoleController(
         summary = "Get roles",
         description = "Get all role"
     )
+    @PreAuthorize("hasAuthority('role:read')")
     @GetMapping("")
     fun getAll(): ResponseEntity<List<RoleResponse>> {
         return ResponseEntity.ok(getAll.execute())
@@ -71,6 +75,7 @@ class RoleController(
         summary = "Delete role",
         description = "Delete a role"
     )
+    @PreAuthorize("hasAuthority('role:delete')")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
         delete.execute(id)
@@ -81,6 +86,7 @@ class RoleController(
         summary = "Restore role",
         description = "Restore role"
     )
+    @PreAuthorize("hasAuthority('role:restore')")
     @PatchMapping("/{id}/restore")
     fun restore(@PathVariable id: UUID): ResponseEntity<RoleResponse> {
         return ResponseEntity.ok(restore.execute(id))
@@ -90,6 +96,7 @@ class RoleController(
         summary = "Update role",
         description = "Update role description"
     )
+    @PreAuthorize("hasAuthority('role:update')")
     @PutMapping("/{id}")
     fun update(@PathVariable id: UUID, @RequestBody request: UpdateRoleRequest): ResponseEntity<RoleResponse> {
         return ResponseEntity.ok(update.execute(id, request))

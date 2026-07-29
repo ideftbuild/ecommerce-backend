@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.hateoas.EntityModel
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PutMapping
 import java.util.UUID
 
@@ -70,6 +71,7 @@ class ProductController(
         summary = "Create a new product",
         description = "Creates a new product using the provided information."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     fun create(@Valid @RequestBody request: CreateProductRequest): ResponseEntity<ProductResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(create.execute(request))
@@ -92,6 +94,7 @@ class ProductController(
         summary = "Delete a product",
         description = "Deletes the product identified by the given ID."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
         delete.execute(id)
@@ -102,6 +105,7 @@ class ProductController(
         summary = "Update a product",
         description = "Update product fields "
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     fun update(@PathVariable id: UUID, @Valid @RequestBody request: UpdateProductRequest)
     : ResponseEntity<EntityModel<ProductResponse>> {
@@ -112,6 +116,7 @@ class ProductController(
         summary = "Restore a product",
         description = "Restores a previously deleted product identified by the given ID."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/restore")
     fun restore(@PathVariable id: UUID): ResponseEntity<ProductResponse> {
         return ResponseEntity.ok(restore.execute(id))
@@ -122,6 +127,7 @@ class ProductController(
         summary = "Activate a product",
         description = "Mark status of product as active"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/activate")
     fun activate(@PathVariable id: UUID): ResponseEntity<EntityModel<ProductResponse>> {
         return ResponseEntity.ok(responseAssembler.toModel(activate.execute(id)))
@@ -131,6 +137,7 @@ class ProductController(
         summary = "Deactivate a product",
         description = "Mark status of product as inactivate"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/deactivate")
     fun deactivate(@PathVariable id: UUID): ResponseEntity<EntityModel<ProductResponse>> {
         return ResponseEntity.ok(responseAssembler.toModel(deactivate.execute(id)))

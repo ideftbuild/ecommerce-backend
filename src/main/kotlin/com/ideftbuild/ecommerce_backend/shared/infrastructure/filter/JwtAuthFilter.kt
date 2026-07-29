@@ -1,7 +1,10 @@
 package com.ideftbuild.ecommerce_backend.shared.infrastructure.filter
 
+import com.ideftbuild.ecommerce_backend.shared.api.AuthenticationEntryPoint
+import com.ideftbuild.ecommerce_backend.shared.exception.JwtExpiredAuthenticationException
 import com.ideftbuild.ecommerce_backend.shared.infrastructure.persistence.JwtService
 import com.ideftbuild.ecommerce_backend.user.application.CustomUserDetailsService
+import io.jsonwebtoken.ExpiredJwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -13,47 +16,58 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtAuthFilter (
     private val jwtService: JwtService,
-    private val userDetailsService: CustomUserDetailsService
+    private val userDetailsService: CustomUserDetailsService,
+    private val authenticationEntryPoint: AuthenticationEntryPoint
 ): OncePerRequestFilter() {
+
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        return request.servletPath in listOf(
+            "/api/v1/auth/login",
+            "/api/v1/auth/signup"
+        )
+    }
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        println("control in filter")
+        println("Ignoring do filter internal")
         val authHeader = request.getHeader("Authorization")
-        println("header gotten: $authHeader")
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response)
             return
         }
-        println("header starts with Bearer. Proceeding")
 
         val token = authHeader.substring(7)
-        val username = jwtService.extractUsername(token)
 
-        println("token retrieved to be: $token")
-        println("username to be: $username")
-        if (SecurityContextHolder.getContext().authentication == null) {
-            val userDetails = userDetailsService.loadUserByUsername(username)
+        try {
+            val username = jwtService.extractUsername(token)
 
-            println("successfully fetched users: ${userDetails.username}")
+            if (SecurityContextHolder.getContext().authentication == null) {
+                val userDetails = userDetailsService.loadUserByUsername(username)
 
-            val authToken  = UsernamePasswordAuthenticationToken(
-                userDetails,
-                null,
-                userDetails.authorities
+                val authToken = UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.authorities
+                )
+                SecurityContextHolder.getContext().authentication = authToken
+                println("Authentication name is : ${authToken.name}")
+            }
+        } catch (ex: ExpiredJwtException) {
+            authenticationEntryPoint.commence(
+                request,
+                response,
+                JwtExpiredAuthenticationException(
+                    "Your JWT token has expired",
+                    ex
+                )
             )
-
-            println("returning authentication object")
-
-            print("authorities are: ${userDetails.authorities}")
-
-            SecurityContextHolder.getContext().authentication = authToken
+            return
         }
 
         filterChain.doFilter(request, response)
     }
-
 }

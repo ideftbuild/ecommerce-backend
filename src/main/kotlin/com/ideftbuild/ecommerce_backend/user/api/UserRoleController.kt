@@ -4,6 +4,7 @@ import com.ideftbuild.ecommerce_backend.user.application.port.input.AssignUserRo
 import com.ideftbuild.ecommerce_backend.user.application.port.input.UnAssignUserRoleInputPort
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
@@ -23,6 +24,7 @@ class UserRoleController(
         summary = "Assign role",
         description = "Assign a role to user"
     )
+    @PreAuthorize("hasAuthority('role:assign')")
     @PutMapping("/{userId}/roles/{roleId}")
     fun assign(@PathVariable userId: UUID, @PathVariable roleId: UUID): ResponseEntity<Void> {
         assign.execute(userId, roleId)
@@ -33,6 +35,7 @@ class UserRoleController(
         summary = "Unassign role",
         description = "unassign a role"
     )
+    @PreAuthorize("hasAuthority('role:unassign')")
     @DeleteMapping("/{userId}/roles/{roleId}")
     fun unassign(@PathVariable userId: UUID, @PathVariable roleId: UUID): ResponseEntity<Void> {
         unassign.execute(userId, roleId)

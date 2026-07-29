@@ -31,6 +31,7 @@ class AuthController (
     @PostMapping
         ("/login")
     fun login(@RequestBody @Valid request: LoginRequest): ResponseEntity<AuthResponse> {
+        println("Auth controller login endpoint")
         return ResponseEntity.ok(login.execute(request))
     }
 

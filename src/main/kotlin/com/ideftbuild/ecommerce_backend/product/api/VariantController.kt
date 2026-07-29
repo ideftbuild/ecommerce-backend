@@ -17,6 +17,7 @@ import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.PagedModel
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -74,6 +75,7 @@ class VariantController(
         summary = "Update a variant",
         description = "Update variant price and quantity"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{variantId}")
     fun update(@PathVariable variantId: UUID, @RequestBody request: UpdateVariantRequest): ResponseEntity<VariantResponse> {
         return ResponseEntity.ok(update.execute(variantId, request))
@@ -84,6 +86,7 @@ class VariantController(
         summary = "Upload images",
         description ="Upload variant images"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{variantId}/images", consumes = ["multipart/form-data"])
     fun uploadImage(@PathVariable variantId: UUID, @RequestParam files: List<MultipartFile>): ResponseEntity<List<VariantImageResponse>> {
         return ResponseEntity.ok(uploadImage.execute(variantId, files))
@@ -93,6 +96,7 @@ class VariantController(
         summary = "Delete image",
         description ="Delete an uploaded variant image"
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{variantId}/images")
     fun deleteImage(@PathVariable variantId: UUID, @RequestBody name: String): ResponseEntity<Void> {
         deleteImage.execute(variantId, name)

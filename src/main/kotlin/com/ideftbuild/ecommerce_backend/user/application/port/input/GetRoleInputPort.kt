@@ -5,4 +5,6 @@ import java.util.UUID
 
 interface GetRoleInputPort {
     fun execute(id: UUID): RoleResponse
+
+    fun execute(name: String): RoleResponse
 }

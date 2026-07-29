@@ -16,4 +16,9 @@ class GetRoleUseCase(
         return roleOutputPort.findById(id)?.toResponse()
             ?: throw ResourceNotFoundException("role", id)
     }
+
+    override fun execute(name: String): RoleResponse {
+        return roleOutputPort.findByName(name)?.toResponse()
+            ?: throw ResourceNotFoundException("role", message = "name")
+    }
 }
