@@ -10,11 +10,11 @@ import com.ideftbuild.ecommerce_backend.product.infrastructure.persistence.entit
 import java.util.Currency
 
 
-fun VariantEntity.toDomain(currency: String): Variant {
+fun VariantEntity.toDomain(currency: String? = null): Variant {
     val variant = Variant(
         id = this.id,
         sku = this.sku,
-        price = Money.of(this.price, Currency.getInstance(currency)),
+        price = Money.of(this.price, Currency.getInstance(currency ?: this.currency)),
         quantity = this.quantity,
         attributes = this.attributes,
         deletedAt = this.deletedAt,
@@ -35,11 +35,11 @@ fun Variant.toEntity(productEntity: ProductEntity): VariantEntity {
         sku = this.sku,
         price = this.price.amount,
         quantity = this.quantity,
+        currency = this.price.currency.currencyCode,
         attributes = this.attributes,
         deletedAt = this.deletedAt,
         deletedByParent = this.deletedByParent,
         product = productEntity
-
     )
 
     this.images.forEach { image ->

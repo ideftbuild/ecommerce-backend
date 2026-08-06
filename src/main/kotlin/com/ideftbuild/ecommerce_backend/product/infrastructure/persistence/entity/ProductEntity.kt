@@ -53,7 +53,6 @@ class ProductEntity (
         cascade = [CascadeType.ALL],
         orphanRemoval = true
     )
-    @Column(nullable = false)
     @OrderBy("price ASC")
     val variants: MutableList<VariantEntity> = mutableListOf(),
 

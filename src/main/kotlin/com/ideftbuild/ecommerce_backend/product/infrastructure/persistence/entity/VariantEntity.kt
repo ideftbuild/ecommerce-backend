@@ -43,6 +43,9 @@ class VariantEntity (
     @Column(nullable = false)
     var quantity: Long,
 
+    @Column(nullable = false, length = 25)
+    var currency: String,
+
     @Column
     @OneToMany(
         mappedBy = "variant",
